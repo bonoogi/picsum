@@ -1,8 +1,12 @@
 package com.bonoogi.picsum.scenes.list
 
 import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import com.bonoogi.picsum.data.PagingList
+import com.bonoogi.picsum.data.image.Image
 import com.bonoogi.picsum.data.image.ImageRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -20,13 +24,14 @@ class ListViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val disposeBag = CompositeDisposable()
+    
+    private val _listLiveData = MutableLiveData<PagingList<Image>>()
+    val listLiveData: LiveData<PagingList<Image>> get() = _listLiveData
 
     fun start() {
         repository.imageListObservable()
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe { list ->
-                Log.d("LIST_VIEW_MODEL", "$list")
-            }
+            .subscribe { _listLiveData.value = it }
             .addTo(disposeBag)
     }
 }
