@@ -1,4 +1,4 @@
-package com.bonoogi.picsum.data.network
+package com.bonoogi.picsum.data.remote
 
 import com.bonoogi.picsum.data.response.Photo
 import io.reactivex.rxjava3.core.Single

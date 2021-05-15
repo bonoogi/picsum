@@ -1,6 +1,6 @@
 package com.bonoogi.picsum.di
 
-import com.bonoogi.picsum.data.network.PicsumService
+import com.bonoogi.picsum.data.remote.PicsumService
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
 import dagger.Provides
