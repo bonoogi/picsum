@@ -1,6 +1,6 @@
 package com.bonoogi.picsum.di
 
-import com.bonoogi.picsum.data.remote.PicsumService
+import com.bonoogi.picsum.data.image.ImageService
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
 import dagger.Provides
@@ -33,7 +33,7 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun providePicsumService(retrofit: Retrofit): PicsumService {
-        return retrofit.create(PicsumService::class.java)
+    fun providePicsumService(retrofit: Retrofit): ImageService {
+        return retrofit.create(ImageService::class.java)
     }
 }
