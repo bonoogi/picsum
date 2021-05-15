@@ -1,6 +1,6 @@
 package com.bonoogi.picsum.di
 
-import com.bonoogi.picsum.data.image.ImageService
+import com.bonoogi.picsum.data.image.*
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
 import dagger.Provides
@@ -35,5 +35,17 @@ object NetworkModule {
     @Provides
     fun providePicsumService(retrofit: Retrofit): ImageService {
         return retrofit.create(ImageService::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun provideSource(service: ImageService): ImageRemoteSource {
+        return ImageRemoteSourceImpl(service)
+    }
+
+    @Singleton
+    @Provides
+    fun provideRepository(remoteSource: ImageRemoteSource): ImageRepository {
+        return ImageRepositoryImpl(remoteSource)
     }
 }

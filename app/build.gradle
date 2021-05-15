@@ -53,6 +53,7 @@ dependencies {
     // ReactiveX
     def rx_version = "3.0.1"
     implementation "io.reactivex.rxjava3:rxkotlin:$rx_version"
+    implementation "io.reactivex.rxjava3:rxandroid:3.0.0"
 
     // Network
     def retrofit_version = "2.9.0"
