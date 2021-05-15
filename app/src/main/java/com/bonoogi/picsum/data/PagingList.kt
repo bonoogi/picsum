@@ -5,7 +5,7 @@ package com.bonoogi.picsum.data
  */
 data class PagingList<T>(
     private val _list: List<T>,
-    val hasPrev: Boolean,
-    val hasNext: Boolean,
-    val currentPage: Int
+    val currentPage: Int,
+    val hasPrev: Boolean = false,
+    val hasNext: Boolean = false
 ): List<T> by _list
