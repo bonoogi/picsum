@@ -1,4 +1,4 @@
-package com.bonoogi.picsum
+package com.bonoogi.picsum.scenes.main
 
 import com.bonoogi.picsum.base.BaseActivity
 import dagger.hilt.android.AndroidEntryPoint

@@ -18,7 +18,7 @@
         android:theme="@style/Theme.Picsum" >
 
         <activity
-            android:name=".MainActivity"
+            android:name=".scenes.main.MainActivity"
             android:launchMode="singleTask"
             android:clearTaskOnLaunch="true" >
             <intent-filter>
