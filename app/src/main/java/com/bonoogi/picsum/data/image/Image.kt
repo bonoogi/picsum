@@ -2,6 +2,7 @@ package com.bonoogi.picsum.data.image
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import java.net.URLEncoder
 
 /**
  * @author 구본욱(bnoo1333@gmail.com)
@@ -23,4 +24,12 @@ data class Image(
     val height: Int,
     val url: String,
     @SerialName("download_url") val downloadUrl: String
-)
+) {
+
+    val thumbnailUrl: String get() = imageUrlWith(300)
+
+    fun imageUrlWith(width: Int, height: Int? = null): String {
+        val _height = height ?: width
+        return "https://picsum.photos/id/$id/$width/$_height"
+    }
+}
