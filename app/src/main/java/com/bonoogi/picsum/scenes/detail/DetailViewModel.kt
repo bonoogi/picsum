@@ -12,4 +12,8 @@ import javax.inject.Inject
 class DetailViewModel  @Inject constructor(
     val handle: SavedStateHandle
 ) : ViewModel() {
+
+    fun startWithId(imageId: String) {
+
+    }
 }

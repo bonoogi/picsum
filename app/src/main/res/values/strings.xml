@@ -3,4 +3,6 @@
 
     <string name="list_menu_switch_to_list">목록으로 보기</string>
     <string name="list_menu_switch_to_grid">그리드로 보기</string>
+
+    <string name="detail_error_invalid_id">유효한 이미지 ID가 아닙니다.</string>
 </resources>

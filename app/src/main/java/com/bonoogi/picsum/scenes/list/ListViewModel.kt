@@ -21,7 +21,6 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class ListViewModel @Inject constructor(
-    val handle: SavedStateHandle,
     private val repository: ImageRepository
 ) : ViewModel(), Refreshable, ScrollLoadMore {
 

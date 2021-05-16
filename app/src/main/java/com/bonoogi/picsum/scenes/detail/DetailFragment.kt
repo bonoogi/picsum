@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -17,8 +18,18 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class DetailFragment : Fragment() {
 
+    companion object {
+        private const val KEY_ID = "IMAGE_ID"
+
+        fun newInstance(imageId: String) = DetailFragment().apply {
+            arguments = Bundle().also {
+                it.putString(KEY_ID, imageId)
+            }
+        }
+    }
+
     private lateinit var binding: FragmentDetailBinding
-    val viewModel by viewModels<DetailViewModel>()
+    private val viewModel by viewModels<DetailViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -32,5 +43,10 @@ class DetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.lifecycleOwner = viewLifecycleOwner
+
+        arguments?.getString(KEY_ID)?.let(viewModel::startWithId) ?: run {
+            Toast.makeText(requireContext(), R.string.detail_error_invalid_id, Toast.LENGTH_SHORT).show()
+            parentFragmentManager.popBackStackImmediate()
+        }
     }
 }
