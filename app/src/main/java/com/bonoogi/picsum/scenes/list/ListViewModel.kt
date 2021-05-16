@@ -24,14 +24,37 @@ class ListViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val disposeBag = CompositeDisposable()
-    
+
     private val _listLiveData = MutableLiveData<PagingList<Image>>()
     val listLiveData: LiveData<PagingList<Image>> get() = _listLiveData
 
     fun start() {
         repository.imageListObservable()
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe { _listLiveData.value = it }
+            .subscribe(
+                {
+                    _listLiveData.value = it
+                }, {
+                    Log.e("TAG", it.toString())
+                }
+            )
             .addTo(disposeBag)
+    }
+
+    fun refresh() {
+        repository.imageListObservable()
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                {
+                    _listLiveData.value = it
+                }, {
+                    Log.e("TAG", it.toString())
+                }
+            )
+            .addTo(disposeBag)
+    }
+
+    fun loadNext() {
+
     }
 }

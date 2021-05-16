@@ -1,3 +1,6 @@
 <resources>
-    <string name="app_name">picsum</string>
+    <string name="app_name">Picsum</string>
+
+    <string name="list_menu_switch_to_list">목록으로 보기</string>
+    <string name="list_menu_switch_to_grid">그리드로 보기</string>
 </resources>

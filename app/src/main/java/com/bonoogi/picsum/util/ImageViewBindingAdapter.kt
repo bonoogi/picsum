@@ -15,7 +15,6 @@ object ImageViewBindingAdapter {
     fun bindImageUrl(imageView: ImageView, url: String?) {
         Glide.with(imageView)
             .load(url)
-            .thumbnail(0.3f)
             //.diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
             .into(imageView)
     }
@@ -25,7 +24,6 @@ object ImageViewBindingAdapter {
     fun bindImageUrl(imageView: ImageView, url: String?, radius: Int) {
         Glide.with(imageView)
             .load(url)
-            .thumbnail(0.3f)
             .transform(RoundedCorners(radius.px))
             //.diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
             .into(imageView)
