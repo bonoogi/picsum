@@ -1,5 +1,6 @@
 package com.bonoogi.picsum.scenes.list
 
+import android.content.Context
 import android.graphics.Rect
 import android.os.Bundle
 import android.view.*
@@ -11,7 +12,11 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bonoogi.picsum.R
+import com.bonoogi.picsum.data.image.Image
 import com.bonoogi.picsum.databinding.FragmentListBinding
+import com.bonoogi.picsum.scenes.ImageNavigator
+import com.bonoogi.picsum.scenes.MainActivity
+import com.bonoogi.picsum.scenes.detail.DetailFragment
 import com.bonoogi.picsum.util.px
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -19,17 +24,18 @@ import dagger.hilt.android.AndroidEntryPoint
  * @author 구본욱(bnoo1333@gmail.com)
  */
 @AndroidEntryPoint
-class ListFragment : Fragment() {
+class ListFragment : Fragment(), ImageListCallback {
 
     companion object {
         const val gridSpanCount = 3
     }
 
+    private lateinit var navigator: ImageNavigator
     private lateinit var binding: FragmentListBinding
     private val viewModel by viewModels<ListViewModel>()
 
     private val adapter: ImageListAdapter by lazy {
-        ImageListAdapter()
+        ImageListAdapter(this)
     }
 
     private val itemDecoration: RecyclerView.ItemDecoration by lazy {
@@ -39,7 +45,7 @@ class ListFragment : Fragment() {
             (itemSpace * (gridSpanCount - 1)) / gridSpanCount
         }
 
-        object: RecyclerView.ItemDecoration() {
+        object : RecyclerView.ItemDecoration() {
             override fun getItemOffsets(
                 outRect: Rect,
                 view: View,
@@ -65,6 +71,12 @@ class ListFragment : Fragment() {
                 outRect.bottom = itemSpace
             }
         }
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        navigator = context as? ImageNavigator ?: parentFragment as? ImageNavigator
+                ?: throw IllegalArgumentException("Must Implement ImageNavigator")
     }
 
     override fun onCreateView(
@@ -102,6 +114,10 @@ class ListFragment : Fragment() {
             }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    override fun onSelectImage(id: String) {
+        navigator.navigateToImage(id)
     }
 
     private fun setViews() {

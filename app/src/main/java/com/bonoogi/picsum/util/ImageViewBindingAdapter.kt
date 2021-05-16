@@ -11,21 +11,10 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 object ImageViewBindingAdapter {
 
     @JvmStatic
-    @BindingAdapter("image_url")
-    fun bindImageUrl(imageView: ImageView, url: String?) {
-        Glide.with(imageView)
-            .load(url)
-            //.diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
-            .into(imageView)
-    }
-
-    @JvmStatic
     @BindingAdapter("image_url", "image_corner_radius")
-    fun bindImageUrl(imageView: ImageView, url: String?, radius: Int) {
-        Glide.with(imageView)
-            .load(url)
-            .transform(RoundedCorners(radius.px))
-            //.diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
-            .into(imageView)
+    fun bindImageUrl(imageView: ImageView, url: String?, radius: Int = 0) {
+        val builder = Glide.with(imageView).load(url)
+        if (radius > 0) builder.transform(RoundedCorners(radius.px))
+        builder.into(imageView)
     }
 }

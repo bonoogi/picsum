@@ -11,19 +11,23 @@ import javax.inject.Inject
  */
 interface ImageRepository {
     fun imageListObservable(page: Int = 1): Observable<PagingList<Image>>
-    fun imageObservable(id: String): Maybe<Image>
+    fun getImageMaybe(id: String): Maybe<Image>
 }
 
 class ImageRepositoryImpl @Inject constructor(
-    private val source: ImageRemoteSource
+    private val remote: ImageRemoteSource,
+    private val local: ImageDao
 ): ImageRepository {
 
     override fun imageListObservable(page: Int): Observable<PagingList<Image>> {
-        return source.getImagesResult(page)
+        return remote.getImagesResult(page)
             .subscribeOn(Schedulers.io())
+            .flatMap { result ->
+                local.insertImages(result).andThen(Observable.just(result))
+            }
     }
 
-    override fun imageObservable(id: String): Maybe<Image> {
-        return Maybe.empty()
+    override fun getImageMaybe(id: String): Maybe<Image> {
+        return local.get(id).subscribeOn(Schedulers.io())
     }
 }

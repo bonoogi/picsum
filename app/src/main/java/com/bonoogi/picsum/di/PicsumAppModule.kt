@@ -1,10 +1,14 @@
 package com.bonoogi.picsum.di
 
+import android.content.Context
+import androidx.room.Room
+import com.bonoogi.picsum.data.PicsumDatabase
 import com.bonoogi.picsum.data.image.*
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
@@ -18,7 +22,7 @@ import javax.inject.Singleton
  */
 @InstallIn(SingletonComponent::class)
 @Module
-object NetworkModule {
+object PicsumAppModule {
 
     @ExperimentalSerializationApi
     @Singleton
@@ -45,7 +49,19 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideRepository(remoteSource: ImageRemoteSource): ImageRepository {
-        return ImageRepositoryImpl(remoteSource)
+    fun provideDatabase(@ApplicationContext context: Context): PicsumDatabase {
+        return Room.databaseBuilder(context, PicsumDatabase::class.java, "picsum.db").build()
     }
+
+    @Provides
+    fun provideImageDao(database: PicsumDatabase): ImageDao {
+        return database.imageDao()
+    }
+
+    @Singleton
+    @Provides
+    fun provideRepository(remoteSource: ImageRemoteSource, dao: ImageDao): ImageRepository {
+        return ImageRepositoryImpl(remoteSource, dao)
+    }
+
 }

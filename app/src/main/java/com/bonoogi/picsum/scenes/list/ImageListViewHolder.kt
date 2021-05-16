@@ -11,7 +11,11 @@ class ImageListViewHolder(
     private val binding: ViewImageItemBinding
 ): RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(image: Image) {
+    fun bind(image: Image, callback: ImageListCallback) {
         binding.image = image
+        binding.root.isClickable = true
+        binding.root.setOnClickListener {
+            callback.onSelectImage(image.id)
+        }
     }
 }

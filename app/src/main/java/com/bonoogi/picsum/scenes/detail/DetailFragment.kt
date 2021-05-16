@@ -31,6 +31,8 @@ class DetailFragment : Fragment() {
     private lateinit var binding: FragmentDetailBinding
     private val viewModel by viewModels<DetailViewModel>()
 
+    private lateinit var imageId: String
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -44,9 +46,16 @@ class DetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.lifecycleOwner = viewLifecycleOwner
 
-        arguments?.getString(KEY_ID)?.let(viewModel::startWithId) ?: run {
+        arguments?.getString(KEY_ID)?.let { imageId = it } ?: run {
             Toast.makeText(requireContext(), R.string.detail_error_invalid_id, Toast.LENGTH_SHORT).show()
             parentFragmentManager.popBackStackImmediate()
+            return
         }
+        bindViewModel()
+    }
+
+    private fun bindViewModel() {
+        binding.vm = viewModel
+        viewModel.startWithId(imageId)
     }
 }
