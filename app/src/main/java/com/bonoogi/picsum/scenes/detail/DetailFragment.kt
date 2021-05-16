@@ -42,8 +42,6 @@ class DetailFragment : Fragment() {
         super.onCreate(savedInstanceState)
         (requireActivity() as? AppCompatActivity)?.supportActionBar?.run {
             setDisplayHomeAsUpEnabled(true)
-            setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_24dp)
-
         }
     }
 

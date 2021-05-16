@@ -25,13 +25,14 @@ class MainActivity: AppCompatActivity(), ImageNavigator {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        if (savedInstanceState == null) {
-            val fragment = ListFragment()
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.content_view, fragment, LIST_TAG)
-                .addToBackStack(LIST_TAG)
-                .commit()
-        }
+
+        supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_24dp)
+
+        val fragment = ListFragment()
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.content_view, fragment, LIST_TAG)
+            .addToBackStack(LIST_TAG)
+            .commit()
     }
 
     override fun onBackPressed() {
