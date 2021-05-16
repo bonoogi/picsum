@@ -40,7 +40,12 @@ class ListViewModel @Inject constructor(
     private var lastPage: Int = -1
     private var hasNext: Boolean = false
 
+    var isStarted = false
+        private set
+
     fun start() {
+        if (isStarted) return
+        isStarted = true
         repository.imageListObservable()
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(this::handlePagingList, this::handleError)
