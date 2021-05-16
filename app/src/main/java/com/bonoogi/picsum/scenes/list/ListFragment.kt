@@ -3,21 +3,19 @@ package com.bonoogi.picsum.scenes.list
 import android.content.Context
 import android.graphics.Rect
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bonoogi.picsum.R
-import com.bonoogi.picsum.data.image.Image
 import com.bonoogi.picsum.databinding.FragmentListBinding
 import com.bonoogi.picsum.scenes.ImageNavigator
-import com.bonoogi.picsum.scenes.MainActivity
-import com.bonoogi.picsum.scenes.detail.DetailFragment
 import com.bonoogi.picsum.util.px
 import dagger.hilt.android.AndroidEntryPoint
 
