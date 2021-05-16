@@ -5,6 +5,7 @@ import android.graphics.Rect
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -91,28 +92,15 @@ class ListFragment : Fragment(), ImageListCallback {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.lifecycleOwner = viewLifecycleOwner
-        setHasOptionsMenu(true)
 
         setViews()
         bindViewModel()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.list_menu, menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.listMode -> {
-                setListViewMode(true)
-                true
-            }
-            R.id.gridMode -> {
-                setListViewMode(false)
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
+    override fun onResume() {
+        super.onResume()
+        (requireActivity() as? AppCompatActivity)?.supportActionBar?.run {
+            setDisplayHomeAsUpEnabled(false)
         }
     }
 
@@ -123,7 +111,7 @@ class ListFragment : Fragment(), ImageListCallback {
     private fun setViews() {
         with(binding) {
             listView.adapter = adapter
-            setListViewMode(true)
+            listView.layoutManager = GridLayoutManager(requireContext(), gridSpanCount)
             listView.addItemDecoration(itemDecoration)
         }
     }
@@ -132,20 +120,10 @@ class ListFragment : Fragment(), ImageListCallback {
         binding.vm = viewModel
         viewModel.start()
         viewModel.listLiveData.observe(viewLifecycleOwner) {
-            binding.refreshLayout.isRefreshing = false
             adapter.submitList(it)
         }
         viewModel.errorMessage.observe(viewLifecycleOwner) {
             Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
         }
-    }
-
-    private fun setListViewMode(isList: Boolean) {
-        if (isList) {
-            binding.listView.layoutManager = LinearLayoutManager(requireContext())
-        } else {
-            binding.listView.layoutManager = GridLayoutManager(requireContext(), gridSpanCount)
-        }
-        adapter.notifyDataSetChanged()
     }
 }
