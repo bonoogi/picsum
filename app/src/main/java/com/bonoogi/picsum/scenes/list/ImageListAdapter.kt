@@ -19,18 +19,15 @@ interface ImageListCallback {
 class ImageListAdapter(
     private val callback: ImageListCallback
 ) : ListAdapter<Image, ImageListViewHolder>(object : DiffUtil.ItemCallback<Image>() {
-        override fun areItemsTheSame(oldItem: Image, newItem: Image): Boolean {
-            return oldItem.id == newItem.id
-        }
+    override fun areItemsTheSame(oldItem: Image, newItem: Image): Boolean {
+        return oldItem.id == newItem.id
+    }
 
-        override fun areContentsTheSame(oldItem: Image, newItem: Image): Boolean {
-            return oldItem == newItem
-        }
+    override fun areContentsTheSame(oldItem: Image, newItem: Image): Boolean {
+        return oldItem == newItem
+    }
 
-        override fun getChangePayload(oldItem: Image, newItem: Image): Any? {
-            return super.getChangePayload(oldItem, newItem)
-        }
-    }) {
+}) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageListViewHolder {
         val binding = DataBindingUtil.inflate<ViewImageItemBinding>(

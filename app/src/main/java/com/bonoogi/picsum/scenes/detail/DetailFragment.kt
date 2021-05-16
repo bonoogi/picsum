@@ -1,10 +1,15 @@
 package com.bonoogi.picsum.scenes.detail
 
 import android.os.Bundle
+import android.util.DisplayMetrics
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
+import androidx.activity.OnBackPressedDispatcher
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -33,6 +38,15 @@ class DetailFragment : Fragment() {
 
     private lateinit var imageId: String
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        (requireActivity() as? AppCompatActivity)?.supportActionBar?.run {
+            setDisplayHomeAsUpEnabled(true)
+            setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_24dp)
+
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -45,6 +59,7 @@ class DetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.lifecycleOwner = viewLifecycleOwner
+        setHasOptionsMenu(true)
 
         arguments?.getString(KEY_ID)?.let { imageId = it } ?: run {
             Toast.makeText(requireContext(), R.string.detail_error_invalid_id, Toast.LENGTH_SHORT).show()
@@ -52,6 +67,16 @@ class DetailFragment : Fragment() {
             return
         }
         bindViewModel()
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            android.R.id.home -> {
+                parentFragmentManager.popBackStack()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     private fun bindViewModel() {
