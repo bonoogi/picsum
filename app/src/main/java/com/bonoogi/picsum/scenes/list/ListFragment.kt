@@ -3,10 +3,10 @@ package com.bonoogi.picsum.scenes.list
 import android.graphics.Rect
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -109,19 +109,19 @@ class ListFragment : Fragment() {
             listView.adapter = adapter
             setListViewMode(true)
             listView.addItemDecoration(itemDecoration)
-            refreshLayout.setOnRefreshListener {
-                viewModel.refresh()
-            }
         }
     }
 
     private fun bindViewModel() {
+        binding.vm = viewModel
         viewModel.start()
-        viewModel.listLiveData
-            .observe(viewLifecycleOwner, Observer {
-                binding.refreshLayout.isRefreshing = false
-                adapter.submitList(it)
-            })
+        viewModel.listLiveData.observe(viewLifecycleOwner) {
+            binding.refreshLayout.isRefreshing = false
+            adapter.submitList(it)
+        }
+        viewModel.errorMessage.observe(viewLifecycleOwner) {
+            Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun setListViewMode(isList: Boolean) {

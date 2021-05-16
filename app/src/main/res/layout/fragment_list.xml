@@ -5,21 +5,29 @@
 
     <data>
 
+        <import type="com.bonoogi.picsum.scenes.list.ListViewModel" />
+
+        <variable
+            name="vm"
+            type="ListViewModel" />
     </data>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/refreshLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:is_refreshing="@{vm.isRefreshing()}"
+        app:refreshable="@{vm}">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/listView"
-            android:paddingTop="8dp"
-            android:paddingStart="12dp"
-            android:paddingEnd="12dp"
-            android:clipToPadding="false"
-            android:scrollbarStyle="outsideOverlay"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingStart="12dp"
+            android:paddingTop="8dp"
+            android:paddingEnd="12dp"
+            android:scrollbarStyle="outsideOverlay"
+            app:scroll_load_more="@{vm}" />
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </layout>

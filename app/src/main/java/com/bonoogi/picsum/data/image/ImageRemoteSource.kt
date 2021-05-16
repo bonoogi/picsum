@@ -1,6 +1,7 @@
 package com.bonoogi.picsum.data.image
 
 import com.bonoogi.picsum.data.PagingList
+import com.bonoogi.picsum.util.splitAndTrim
 import io.reactivex.rxjava3.core.Observable
 import okhttp3.Headers
 import javax.inject.Inject
@@ -36,18 +37,18 @@ class ImageRemoteSourceImpl @Inject constructor(
      */
     private fun isLinkHasPrevOrNext(header: Headers): Pair<Boolean, Boolean> {
         val links = header.get("Link")?.split(",").orEmpty()
-        if (links.size < 2) return Pair(first = false, second = false)
+        if (links.isEmpty()) return Pair(first = false, second = false)
 
         var hasPrev = false
         var hasNext = false
         for (link in links) {
-            val segments = link.split(";")
+            val segments = link.splitAndTrim(";")
             if (segments.size < 2) break
             val rel = segments.firstOrNull { it.startsWith("rel") } ?: break
             val prevOrNext = rel.split("=").getOrNull(1)?.trim() ?: break
             when (prevOrNext) {
                 "\"prev\"" -> { hasPrev = true }
-                "\"next\"" -> { hasNext = false }
+                "\"next\"" -> { hasNext = true }
             }
         }
         return Pair(hasPrev, hasNext)
